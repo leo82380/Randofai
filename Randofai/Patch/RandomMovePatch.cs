@@ -1,5 +1,5 @@
 ﻿using HarmonyLib;
-using Randofai.Method;
+using Random = Randofai.Method.Random;
 
 namespace Randofai.Patch
 {

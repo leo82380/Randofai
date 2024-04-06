@@ -1,22 +1,29 @@
-﻿using UnityEngine;
+﻿using ADOFAI;
+using UnityEngine;
 
 namespace Randofai.Method
 {
     public class Random
     {
+        private static CustomLevelTile[] floors;
+        private static CustomLevelTile floor;
+        private static GenericDataCLS loadedLevel;
         public static void RandomMove()
         {
             if (!scnCLS.cls) return;
             if (Event.current.isKey && Event.current.keyCode == KeyCode.R)
             {
-                CustomLevelTile[] floors = scnCLS.cls.floorContainer.gameObject.GetComponentsInChildren<CustomLevelTile>();
-                Transform planet = GameObject.Find("planets").transform.GetChild(0);
+                floors = scnCLS.cls.floorContainer.gameObject.GetComponentsInChildren<CustomLevelTile>();
                 if (floors.Length == 0) return;
-                if (planet == null) return;
-                CustomLevelTile floor = floors[UnityEngine.Random.Range(0, floors.Length)];
+                floor = floors[UnityEngine.Random.Range(0, floors.Length)];
+                loadedLevel = scnCLS.instance.loadedLevels[floor.levelKey];
+
+                while (loadedLevel.difficulty != Main.difficultyInt)
+                {
+                    floor = floors[UnityEngine.Random.Range(0, floors.Length)];
+                    loadedLevel = scnCLS.instance.loadedLevels[floor.levelKey];
+                }
                 
-                planet.position = floor.transform.position;
-                scrCamera.instance.Refocus(planet);
                 scnCLS.instance.DisplayLevel(floor.name);
                 scnCLS.instance.SelectLevel(floor, true);
             }
