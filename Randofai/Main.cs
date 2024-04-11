@@ -1,6 +1,7 @@
 using System;
 using HarmonyLib;
 using System.Reflection;
+using UnityEngine;
 using UnityModManagerNet;
 
 namespace Randofai
@@ -42,17 +43,19 @@ namespace Randofai
         {
             if (IsEnabled)
             {
-                UnityEngine.GUILayout.Label("Difficulty");
-                difficulty = UnityEngine.GUILayout.TextField(difficulty);
+                GUILayout.Label("<size=20>Difficulty</size>");
+                difficulty = GUILayout.TextField(difficulty);
                 if (IsVaildDifficulty(difficulty) && difficulty != "")
                 {
                     
                     difficultyInt = Convert.ToInt32(difficulty);
-                    difficultyInt = UnityEngine.Mathf.Clamp(difficultyInt, 1, 10);
+                    difficultyInt = Mathf.Clamp(difficultyInt, 1, 10);
                 }
                 else
                 {
-                    UnityEngine.GUILayout.Label("Invalid difficulty");
+                    GUI.color = Color.red;
+                    GUILayout.Label("Invalid difficulty! Please enter a number between 1 and 10.");
+                    GUI.color = Color.white;
                 }
             }
         }
